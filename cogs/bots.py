@@ -44,4 +44,4 @@ async def on_message(message: discord.Message):
             await a.delete()
             break
     await bot.process_commands(message)
-bot.run('NDYzMzcyNzUzMjcwMjEwNTYw.DiEWwA.ocxYslshAWuuqxUnvSYvp362ExQ', bot=True, reconnect=True)
+bot.run('Token', bot=True, reconnect=True)
