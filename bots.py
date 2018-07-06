@@ -29,7 +29,7 @@ async def on_ready():
         servers = list(bot.guilds)
         print("Connected on " + str(len(bot.guilds)) + " servers:")
         for x in range(len(servers)):
-            print('  ' + servers[x - 1].name)
+            print('  ' + servers[x].name)
 @bot.event
 async def on_message_delete(message):
     fmt = '{0.author.name} has deleted the message:\n{0.content}'
