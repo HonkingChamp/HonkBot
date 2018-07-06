@@ -1,13 +1,14 @@
 import discord
 import re
+import shlex
+import subprocess
 from discord.ext import commands
-
+from concurrent.futures import ThreadPoolExecutor
 
 class OwnerCog:
 
     def __init__(self, bot):
         self.bot = bot
-
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
@@ -53,6 +54,26 @@ class OwnerCog:
     @commands.is_owner()
     async def leave(self, ctx):
         await ctx.guild.leave()
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def update_bot(self, ctx, *, options=None):
+        """Does a git pull"""
+        cmd = 'git pull'.split(' ')
+        self.bot.threadpool = ThreadPoolExecutor(max_workers=2)
+        if options:
+            cmd.extend(shlex.split(options))
+
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = await self.bot.loop.run_in_executor(self.bot.threadpool, p.communicate)
+        out = out.decode('utf-8')
+        if err:
+            out = err.decode('utf-8') + out
+
+        if len(out) > 2000:
+            out = out[:1996] + '...'
+
+        await ctx.send(out)
 
 def setup(bot):
     bot.add_cog(OwnerCog(bot))
