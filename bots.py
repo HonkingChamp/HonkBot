@@ -25,7 +25,7 @@ async def on_ready():
         print(bot.user.name)
         print(bot.user.id)
         print('------')
-        await bot.change_presence(game=discord.Game(name='Fuck Rice'))
+        await bot.change_presence(activity=discord.Game(name='Fuck Rice'))
         servers = list(bot.guilds)
         print("Connected on " + str(len(bot.guilds)) + " servers:")
         for x in range(len(servers)):
