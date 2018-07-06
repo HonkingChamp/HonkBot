@@ -40,8 +40,7 @@ class MiscCogs:
         except asyncio.TimeoutError:
             await ctx.channel.send('You took too long...')
         else:
-            if (a == "rock" and b == "rock") or (a == "scissors" and b == "scissors") or (
-                    a == "paper" and b == "paper"):
+            if a==b:
                 await ctx.channel.send(f"I chose {b}.")
                 await ctx.channel.send("It's a draw")
             elif (a == "rock" and b == "scissors") or (a == "scissors" and b == "paper") or (
