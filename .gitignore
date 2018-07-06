@@ -1,4 +1,0 @@
-$ echo debug.log >> .gitignore
-$ git rm --cached config.json
-rm 'debug.log'
-$ git commit -m "Start ignoring config.json"
