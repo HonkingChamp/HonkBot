@@ -29,22 +29,15 @@ class AdminCogs:
         a = await ctx.channel.send(f'{message} messages deleted nereaE')
         await asyncio.sleep(2)
         await a.delete()
-    @commands.command(description="Destroys all of the server's channels", brief="Used this to rekt Nerea")
+   
+@commands.command(description="Destroys all of the server's channels", brief="Used this to rekt Nerea")
     @commands.has_permissions(manage_channels=True, manage_roles=True)
-    async def destroy(self, ctx, guild=None):
-        if guild is None:
-            for channel in ctx.guild.channels:
-                Bot = self.bot.get_user(464409759421038592)
-                await channel.set_permissions(target=Bot, send_messages=True)
-                await channel.delete()
-        else:
-            todestroy = self.bot.get_guild(int(guild))
-            for channel in todestroy.channels:
-                Bot = self.bot.get_user(464409759421038592)
-                await channel.set_permissions(target=Bot, send_messages=True)
-                await channel.delete()
-            await ctx.channel.send(f"Deleted {todestroy.name}'s channels")
-
+    async def destroy(self, ctx):
+        for channel in ctx.guild.channels:
+            Bot = self.bot.get_user(464409759421038592)
+            await channel.set_permissions(target=Bot, send_messages=True)
+            await channel.delete()
+            
     @commands.command(description ="disables a command", brief="disables those unwanted shits")
     async def disable(self, ctx, command):
         await ctx.channel.send(f'{command} has been disabled')
