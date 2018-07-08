@@ -44,14 +44,11 @@ class AdminCogs:
         await ctx.author.kick()
     
     @commands.command(description="Adds/Removes role", brief="Add Role")
-    async def role(self, ctx, user: discord.Member=None, role: discord.Role=None):
-        if user is None:
-            user = ctx.author
-            await user.add_roles(role)
-        elif role is None:
+    async def role(self, ctx, role: discord.Role=None):
+        if role is None:
             await ctx.channel.send("No role specified")
         else:
-            await user.add_roles(role)
+            await ctx.author.add_roles(role)
 
 def setup(bot):
     bot.add_cog(AdminCogs(bot))
