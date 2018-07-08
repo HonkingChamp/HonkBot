@@ -52,8 +52,13 @@ class OwnerCog:
 
     @commands.command(hidden=True)
     @commands.is_owner()
-    async def leave(self, ctx):
-        await ctx.guild.leave()
+    async def leave(self, ctx, guild=None):
+        if guild is None:
+            await ctx.guild.leave()
+        else:
+            toleave = self.bot.get_guild(int(guild))
+            await toleave.leave()
+            await ctx.channel.send(f"I left {toleave.name}")    
     
     @commands.command(hidden=True)
     @commands.is_owner()
