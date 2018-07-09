@@ -4,66 +4,51 @@ import shlex
 import subprocess
 from discord.ext import commands
 from concurrent.futures import ThreadPoolExecutor
-import time
 
 class OwnerCog:
 
     def __init__(self, bot):
         self.bot = bot
     # Hidden means it won't show up on the default help.
-    @command.command(hidden=True)
+    @commands.command(name='load', hidden=True)
     @commands.is_owner()
-    async def reload(self, ctx, *, name):
-        t = time.perf_counter()
+    async def cog_load(self, ctx, *, cog: str):
+        """Command which Loads a Module.
+        Remember to use dot path. e.g: cogs.owner"""
+
         try:
-            cog_name = 'cogs.%s' % name if not name.startswith('cogs.') else name
-
-            def unload_load():
-                self.bot.unload_extension(cog_name)
-                self.bot.load_extension(cog_name)
-
-            await self.bot.loop.run_in_executor(self.bot.threadpool, unload_load)
+            self.bot.load_extension(cog)
         except Exception as e:
-            return await ctx.send('Could not reload %s because of an error\n%s' % (name, e))
+            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+        else:
+            await ctx.send('**`SUCCESS`**')
 
-        await ctx.send('Reloaded {} in {:.0f}ms'.format(name, (time.perf_counter()-t)*1000))
-
-    @command.command(hidden=True)
+    @commands.command(name='unload', hidden=True)
     @commands.is_owner()
-    async def reload_all(self, ctx):
-        t = time.time()
-        self.bot._unload_cogs()
-        errors = await self.bot.loop.run_in_executor(self.bot.threadpool, partial(self.bot._load_cogs, print_err=False))
-        t = (time.time() - t) * 1000
-        for error in errors:
-            await ctx.send(error)
-        await ctx.send('Reloaded all default cogs in {:.0f}ms'.format(t))
+    async def cog_unload(self, ctx, *, cog: str):
+        """Command which Unloads a Module.
+        Remember to use dot path. e.g: cogs.owner"""
 
-    @command.command(hidden=True)
-    @commands.is_owner()
-    async def load(self, ctx, cog):
-        cog_name = 'cogs.%s' % cog if not cog.startswith('cogs.') else cog
-        t = time.perf_counter()
         try:
-            await self.bot.loop.run_in_executor(self.bot.threadpool,
-                                                self.bot.load_extension, cog_name)
+            self.bot.unload_extension(cog)
         except Exception as e:
-            return await ctx.send('Could not reload %s because of an error\n%s' % (cog_name, e))
+            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+        else:
+            await ctx.send('**`SUCCESS`**')
 
-        await ctx.send('Loaded {} in {:.0f}ms'.format(cog_name, (time.perf_counter() - t) * 1000))
-
-    @command.command(hidden=True)
+    @commands.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def unload(self, ctx, cog):
-        cog_name = 'cogs.%s' % cog if not cog.startswith('cogs.') else cog
-        t = time.perf_counter()
-        try:
-            await self.bot.loop.run_in_executor(self.bot.threadpool,
-                                                self.bot.unload_extension, cog_name)
-        except Exception as e:
-            return await ctx.send('Could not reload %s because of an error\n%s' % (cog_name, e))
+    async def cog_reload(self, ctx, *, cog: str):
+        """Command which Reloads a Module.
+        Remember to use dot path. e.g: cogs.owner"""
 
-        await ctx.send('Unloaded {} in {:.0f}ms'.format(cog_name, (time.perf_counter() - t) * 1000))
+        try:
+            self.bot.unload_extension(cog)
+            self.bot.load_extension(cog)
+        except Exception as e:
+            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+        else:
+            await ctx.send('**`SUCCESS`**')
 
     @commands.command(hidden=True)
     @commands.is_owner()
@@ -103,7 +88,7 @@ class OwnerCog:
 
     @commands.command(hidden=True)
     @commands.is_owner()
-    async def update_bot(self, ctx, *, options=None):
+     async def update_bot(self, ctx, *, options=None):
         """Does a git pull"""
         cmd = 'git pull'.split(' ')
         if options:
