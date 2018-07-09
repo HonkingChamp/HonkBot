@@ -102,7 +102,7 @@ class OwnerCog:
 
     @commands.command(hidden=True)
     @commands.is_owner()
-     async def update_bot(self, ctx, *, options=None):
+    async def update_bot(self, ctx, *, options=None):
         """Does a git pull"""
         cmd = 'git pull'.split(' ')
         if options:
