@@ -11,7 +11,7 @@ class AdminCogs:
         await member.kick()
         a = await ctx.channel.send(f"Fuck {member.display_name}")
         await asyncio.sleep(3)
-        await a.edit(content="I mean what")\
+        await a.edit(content="I mean what")
 
     @commands.command(description = "Bans people", brief = "It bans people")
     @commands.has_permissions(ban_members=True)
