@@ -13,9 +13,7 @@ class MiscCogs:
 
     @commands.command(description="Lol", brief="Random image about Google")
     async def whatisthis(self, ctx):
-        my_files = ['C:/Users/Choong Jueen Mao/Downloads/Just Google It.jpg', ]
-        with open(random.choice(my_files), 'rb') as fp:
-            await ctx.channel.send(file=discord.File(fp))
+        await ctx.channel.send("https://imgur.com/gallery/QeC5uC2")
 
     @commands.command(description="Gay stuff", brief="really gay stuff")
     async def mickygay(self, ctx):
