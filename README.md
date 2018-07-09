@@ -1,1 +1,1 @@
-"Fuck her and the pizza"
+Fuck her and the pizza
