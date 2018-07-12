@@ -42,10 +42,6 @@ class OwnerCog:
         """Command which Reloads a Module.
         Remember to use dot path. e.g: cogs.owner"""
         try:
-            importlib.import_module(name)
-        except:
-            return await ctx.send('Failed load new file. Reverting')
-        try:
             self.bot.unload_extension(cog)
             self.bot.load_extension(cog)
         except Exception as e:
