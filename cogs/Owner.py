@@ -91,8 +91,6 @@ class OwnerCog:
 
         if files:
             files = [f.replace('/', '.') for f in files]
-            await ctx.send(f'Do you want to reload files `{"` `".join(files)}`')
-
             def do_reload():
                 messages = []
                 for file in files:
@@ -103,9 +101,7 @@ class OwnerCog:
                         messages.append('Failed to load extension {}\n{}: {}'.format(file, type(e).__name__, e))
                     else:
                         messages.append(f'Reloaded {file}')
-
                 return messages
-
             messages = await self.bot.loop.run_in_executor(self.bot.threadpool, do_reload)
             if messages:
                 await ctx.send('\n'.join(messages))
