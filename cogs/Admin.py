@@ -49,8 +49,10 @@ class AdminCogs:
             await ctx.channel.send("No role specified")
         elif role in ctx.author.roles:
             await ctx.author.remove_roles(role)
+            await ctx.channel.send(f"Removed {role.name}")
         else:
             await ctx.author.add_roles(role)
+            await ctx.channel.send(f'Added {role.name}')
 
 def setup(bot):
     bot.add_cog(AdminCogs(bot))
