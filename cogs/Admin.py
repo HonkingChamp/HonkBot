@@ -24,8 +24,7 @@ class AdminCogs:
         b = await ctx.channel.send('Clearing messages...')
         await b.delete()
         await asyncio.sleep(2)
-        async for msg in discord.abc.Messageable.history(ctx.channel, limit= (message + 1)):
-            await msg.delete()
+        await ctx.channel.purge(limit=message+1)
         a = await ctx.channel.send(f'{message} messages deleted nereaE')
         await asyncio.sleep(2)
         await a.delete()
