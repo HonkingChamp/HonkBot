@@ -1,14 +1,18 @@
 import discord
 import re
+from discord.ext import commands
 import shlex
 import subprocess
-from discord.ext import commands
 from concurrent.futures import ThreadPoolExecutor
 import importlib
+import time
+
+
 class OwnerCog:
 
     def __init__(self, bot):
         self.bot = bot
+
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
@@ -19,9 +23,9 @@ class OwnerCog:
         try:
             self.bot.load_extension(cog)
         except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+            await ctx.send(f'**```ERROR: {type(e).__name__} - {e}```**')
         else:
-            await ctx.send('**`SUCCESS`**')
+            await ctx.send('**```SUCCESS```**')
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
@@ -32,22 +36,26 @@ class OwnerCog:
         try:
             self.bot.unload_extension(cog)
         except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+            await ctx.send(f'**```ERROR: {type(e).__name__} - {e}```**')
         else:
-            await ctx.send('**`SUCCESS`**')
+            await ctx.send('**```SUCCESS```**')
 
     @commands.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def cog_reload(self, ctx, *, cog: str):
-        """Command which Reloads a Module.
-        Remember to use dot path. e.g: cogs.owner"""
+    async def reload(self, ctx, *, name):
+        t = time.perf_counter()
         try:
-            self.bot.unload_extension(cog)
-            self.bot.load_extension(cog)
+            cog_name = 'cogs.%s' % name if not name.startswith('cogs.') else name
+
+            def unload_load():
+                self.bot.unload_extension(cog_name)
+                self.bot.load_extension(cog_name)
+
+            await self.bot.loop.run_in_executor(self.bot.threadpool, unload_load)
         except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
-        else:
-            await ctx.send('**`SUCCESS`**')
+            await ctx.send('``Could not reload %s because of an error\n%s``' % (name, e))
+
+        await ctx.send('``Reloaded {} in {:.0f}ms``'.format(name, (time.perf_counter() - t) * 1000))
 
     @commands.command(hidden=True)
     @commands.is_owner()
@@ -57,33 +65,9 @@ class OwnerCog:
         else:
             toleave = self.bot.get_guild(int(guild))
             await toleave.leave()
-            await ctx.channel.send(f"I left {toleave.name}")    
-    
-    @commands.command(hidden=True)
-    @commands.is_owner()
-    async def shutdown(self, ctx):
-        try:
-            await ctx.send('Shutting down')
-        except HTTPException:
-            pass
+            await ctx.channel.send(f"I left {toleave.name}")
 
-        try:
-            pending = asyncio.Task.all_tasks(loop=self.bot.loop)
-            gathered = asyncio.gather(*pending, loop=self.bot.loop)
-            try:
-                gathered.cancel()
-                self.bot.loop.run_until_complete(gathered)
 
-                # we want to retrieve any exceptions to make sure that
-                # they don't nag us about it being un-retrieved.
-                gathered.exception()
-            except:
-                pass
-
-        except:
-            pass
-        finally:
-            await self.bot.logout()
 
     @commands.command(hidden=True)
     @commands.is_owner()
