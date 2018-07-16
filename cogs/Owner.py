@@ -54,8 +54,8 @@ class OwnerCog:
             await self.bot.loop.run_in_executor(self.bot.threadpool, unload_load)
         except Exception as e:
             await ctx.send('``Could not reload %s because of an error\n%s``' % (name, e))
-
-        await ctx.send('``Reloaded {} in {:.0f}ms``'.format(name, (time.perf_counter() - t) * 1000))
+        else:
+            await ctx.send('``Reloaded {} in {:.0f}ms``'.format(name, (time.perf_counter() - t) * 1000))
 
     @commands.command(hidden=True)
     @commands.is_owner()
@@ -106,6 +106,14 @@ class OwnerCog:
             if messages:
                 await ctx.send('\n'.join(messages))
            
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def serverlist(self, ctx):
+        servers = list(self.bot.guilds)
+        await ctx.channel.send("Connected on " + str(len(self.bot.guilds)) + " servers:")
+        for x in range(len(servers)):
+            await ctx.channel.send(f'{servers[x].name}')
+            await ctx.channel.send(f'{servers[x].id}')
 
 def setup(bot):
     bot.add_cog(OwnerCog(bot))
