@@ -55,6 +55,8 @@ class MiscCogs:
     @commands.command(description="Checks ping", brief="Check ping")
     async def ping(self, ctx):
         t = time.perf_counter()
+        await ctx.trigger_typing()
+        t = time.perf_counter() - t
         emb = discord.Embed(description='Pong!\ntook {:.0f}ms'.format((time.perf_counter() - t) * 1000), colour=0xa15606)
         await ctx.channel.send(embed=emb)
 
