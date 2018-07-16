@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import asyncio
+import time
 class MiscCogs:
 
     def __init__(self, bot):
@@ -54,7 +55,7 @@ class MiscCogs:
     @commands.command(description="Checks ping", brief="Check ping")
     async def ping(self, ctx):
         t = time.perf_counter()
-        emb = discord.Embed(description='``Pong!\ntook {:.0f}ms``'.format((time.perf_counter() - t) * 1000), colour=0xa15606)
+        emb = discord.Embed(description='Pong!\ntook {:.0f}ms'.format((time.perf_counter() - t) * 1000), colour=0xa15606)
         await ctx.channel.send(embed=emb)
 
 def setup(bot):
