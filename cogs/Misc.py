@@ -57,7 +57,7 @@ class MiscCogs:
         t = time.perf_counter()
         await ctx.trigger_typing()
         t = time.perf_counter() - t
-        emb = discord.Embed(description='Pong!\ntook {:.0f}ms'.format((t*1000), colour=0xa15606)
+        emb = discord.Embed(description='Pong!\ntook {:.0f}ms'.format(t*1000), colour=0xa15606)
         await ctx.channel.send(embed=emb)
 
 def setup(bot):
