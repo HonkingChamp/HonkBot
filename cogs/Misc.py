@@ -49,6 +49,11 @@ class MiscCogs:
                     a == "paper" and b == "scissors"):
                 await ctx.channel.send(f"I chose {b}.")
                 await ctx.channel.send("FeelsGoodMan")
+    @commands.command(description="Checks ping", brief="Check ping")
+    async def ping(self, ctx):
+        t = time.perf_counter()
+        emb = discord.Embed(description='``Pong!\ntook {:.0f}ms``'.format((time.perf_counter() - t) * 1000), colour=0xa15606)
+        await ctx.channel.send(embed=emb)
 
 def setup(bot):
     bot.add_cog(MiscCogs(bot))
