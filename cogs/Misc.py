@@ -49,6 +49,8 @@ class MiscCogs:
                     a == "paper" and b == "scissors"):
                 await ctx.channel.send(f"I chose {b}.")
                 await ctx.channel.send("FeelsGoodMan")
+                
+                
     @commands.command(description="Checks ping", brief="Check ping")
     async def ping(self, ctx):
         t = time.perf_counter()
