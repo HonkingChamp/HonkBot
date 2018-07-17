@@ -3,7 +3,6 @@ import json
 from discord.ext import commands
 from concurrent.futures import ThreadPoolExecutor
 import sys, traceback
-import string
 
 initial_extensions = ['cogs.Owner',
                       'cogs.Admin',
@@ -43,10 +42,7 @@ async def on_message(message: discord.Message):
         msg = await message.channel.send('Nerea rart')
         await msg.delete()
         await a.delete()
-    msg = message.content
-    exclude = set(string.punctuation)
-    msg = ''.join(ch for ch in msg if ch not in exclude)
-    bob = msg.lower()
+    bob = message.content.lower()
     if "micky" in bob and "gay" in bob or "mickygay" in bob:
         emb = discord.Embed(description="I will fuck her and the pizza", colour=0xa15606)
         emb.set_author(name="Micky", icon_url="https://pbs.twimg.com/media/DahxOugU0AAQ4eM.jpg")
