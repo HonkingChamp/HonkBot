@@ -46,9 +46,8 @@ async def on_message(message: discord.Message):
     msg = message.content
     exclude = set(string.punctuation)
     msg = ''.join(ch for ch in msg if ch not in exclude)
-    s = msg.lower()
-    bob = s.split()
-    if "micky" and "gay" in bob or "mickygay" in bob:
+    bob = msg.lower()
+    if "micky" in bob and "gay" in bob or "mickygay" in bob:
         emb = discord.Embed(description="I will fuck her and the pizza", colour=0xa15606)
         emb.set_author(name="Micky", icon_url="https://pbs.twimg.com/media/DahxOugU0AAQ4eM.jpg")
         emb.set_image(url="https://cdn.discordapp.com/attachments/297061271205838848/463864376630312960/IMG_20180501_215320.png")
