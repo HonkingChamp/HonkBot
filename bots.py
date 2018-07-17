@@ -37,13 +37,12 @@ async def on_message_delete(message):
 
 @bot.event
 async def on_message(message: discord.Message):
-    while message.content.startswith("Spain") and message.author != bot.user:
+    if message.content.startswith("Spain") and message.author != bot.user:
         a = await message.channel.send("Russia trashed Spain")
-        if message.edit(content="I'm retarded"):
-            msg = await message.channel.send('Nerea rart')
-            await msg.delete()
-            await a.delete()
-            break
+        msg = await message.channel.send('Nerea rart')
+        await msg.delete()
+        await a.delete()
+        break
     await bot.process_commands(message)
 
 with open('config.json') as f:
