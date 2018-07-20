@@ -31,11 +31,13 @@ class MiscCogs:
         b = random.choice(Rockpaperscissors)
 
         def pred(m):
-            return m.author == ctx.author and m.channel == ctx.channel
+            c = m.content.lower()
+            return m.author == ctx.author and m.channel == ctx.channel and c == "rock" or m.author == ctx.author\
+                and m.channel == ctx.channel and c == "paper" or m.author == ctx.author and \
+                m.channel == ctx.channel and c == "scissors"
 
         try:
-            d = await self.bot.wait_for('message', check=pred, timeout=120)
-            a = d.content.lower()
+            a = await self.bot.wait_for('message', check=pred, timeout=120)
         except asyncio.TimeoutError:
             await ctx.channel.send('You took too long...')
         else:
