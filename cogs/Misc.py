@@ -37,7 +37,8 @@ class MiscCogs:
                 m.channel == ctx.channel and c == "scissors"
 
         try:
-            a = await self.bot.wait_for('message', check=pred, timeout=120)
+            d = await self.bot.wait_for('message', check=pred, timeout=120)
+            a = d.content.lower()
         except asyncio.TimeoutError:
             await ctx.channel.send('You took too long...')
         else:
