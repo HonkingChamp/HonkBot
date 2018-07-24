@@ -57,8 +57,8 @@ class AdminCogs:
             await ctx.author.add_roles(role)
             await ctx.channel.send(f'Added {role.name}')
             
-    @command(aliases=['src', 'source_code'])
-    @cooldown(1, 5, BucketType.user)
+    @commands.command(names=['src', 'source_code'])
+    @commands.cooldown(1, 5, BucketType.user)
     async def source(self, ctx, *cmd):
         """Source code for this bot"""
         if cmd:
