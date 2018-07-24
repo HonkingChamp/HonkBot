@@ -1,6 +1,10 @@
 import discord
 from discord.ext import commands
 import asyncio
+import textwrap
+import inspect
+
+
 class AdminCogs:
     def __init__(self, bot):
         self.bot = bot
@@ -52,6 +56,38 @@ class AdminCogs:
         else:
             await ctx.author.add_roles(role)
             await ctx.channel.send(f'Added {role.name}')
+            
+    @command(aliases=['src', 'source_code'])
+    @cooldown(1, 5, BucketType.user)
+    async def source(self, ctx, *cmd):
+    """Source code for this bot"""
+        if cmd:
+            full_name = ' '.join(cmd)
+            cmnd = self.bot.all_commands.get(cmd[0])
+            if cmnd is None:
+                raise BadArgument(f'Command "{full_name}" not found')
+
+            for c in cmd[1:]:
+                if not isinstance(cmnd, Group):
+                    raise BadArgument(f'Command "{full_name}" not found')
+
+                cmnd = cmnd.get_command(c)
+
+            cmd = cmnd
+
+        if not cmd:
+            await ctx.send('You can find the source code for this bot here https://github.com//HonkingChamp/HonkBot')
+            return
+
+        source = inspect.getsource(cmd.callback)
+        original_source = textwrap.dedent(source)
+        source = original_source.replace('`​`​`', '`\u200b`\u200b`')  # Put zero width space between backticks so they can be within a codeblock
+        source = f'`​`​`py\n{source}\n`​`​`'
+        if len(source) > 2000:
+            file = discord.File(StringIO(original_source), filename=f'{full_name}.py')
+            await ctx.send(f'Content was longer than 2000 ({len(source)} > 2000)', file=file)
+            return
+        await ctx.send(source)
 
 def setup(bot):
     bot.add_cog(AdminCogs(bot))
