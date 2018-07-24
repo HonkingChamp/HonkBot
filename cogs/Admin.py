@@ -3,7 +3,8 @@ from discord.ext import commands
 import asyncio
 import textwrap
 import inspect
-
+from io import StringIO
+from discord.ext.commands import BucketType, command
 
 class AdminCogs:
     def __init__(self, bot):
