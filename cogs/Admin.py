@@ -82,8 +82,8 @@ class AdminCogs:
 
         source = inspect.getsource(cmd.callback)
         original_source = textwrap.dedent(source)
-        source = original_source.replace('`​`​`', '`\u200b`\u200b`')  # Put zero width space between backticks so they can be within a codeblock
-        source = f'`​`​`py\n{source}\n`​`​`'
+        source = original_source.replace('```​```​```', '```\u200b```\u200b```')  # Put zero width space between backticks so they can be within a codeblock
+        source = f'```​```​```py\n{source}\n```​```​```'
         if len(source) > 2000:
             file = discord.File(StringIO(original_source), filename=f'{full_name}.py')
             await ctx.send(f'Content was longer than 2000 ({len(source)} > 2000)', file=file)
