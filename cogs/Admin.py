@@ -60,7 +60,7 @@ class AdminCogs:
     @command(aliases=['src', 'source_code'])
     @cooldown(1, 5, BucketType.user)
     async def source(self, ctx, *cmd):
-    """Source code for this bot"""
+        """Source code for this bot"""
         if cmd:
             full_name = ' '.join(cmd)
             cmnd = self.bot.all_commands.get(cmd[0])
