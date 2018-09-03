@@ -119,7 +119,7 @@ class OwnerCog:
     @commands.is_owner()
     async def status(self, ctx, *args):
         stat = ' '.join(args)
-        await self.bot.change_presence(game=discord.Game(name=stat))
+        await self.bot.change_presence(discord.Game(name=stat))
         emb = discord.Embed(description=f"{ctx.author.name} has changed my status to {stat}", colour=0xa15606)
         await ctx.channel.send(embed=emb)
 
