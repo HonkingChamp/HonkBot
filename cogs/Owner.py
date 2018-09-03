@@ -114,6 +114,14 @@ class OwnerCog:
         for x in range(len(servers)):
             await ctx.channel.send(f'{servers[x].name}')
             await ctx.channel.send(f'{servers[x].id}')
+            
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def status(self, ctx, *args):
+        stat = ' '.join(args)
+        await self.bot.change_presence(game=discord.Game(name=stat))
+        emb = discord.Embed(description=f"{ctx.author.name} has changed my status to {stat}", colour=0xa15606)
+        await ctx.channel.send(embed=emb)
 
 def setup(bot):
     bot.add_cog(OwnerCog(bot))
