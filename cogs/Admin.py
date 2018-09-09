@@ -48,7 +48,7 @@ class AdminCogs:
         await ctx.author.kick()
     
     @commands.command(description="Adds/Removes role", brief="Add Role")
-    async def role(self, ctx, role: discord.Role=None):
+    async def role(self, ctx, *, role: discord.Role=None):
         if role is None:
             await ctx.channel.send("No role specified")
         elif role in ctx.author.roles:
