@@ -16,10 +16,6 @@ class MiscCogs:
     async def whatisthis(self, ctx):
         await ctx.channel.send("https://imgur.com/gallery/QeC5uC2")
 
-    @commands.command(description="Gay stuff", brief="really gay stuff")
-    async def mickygay(self, ctx):
-        await ctx.channel.send("https://cdn.discordapp.com/attachments/297061271205838848/463864376630312960/IMG_20180501_215320.png")
-
     @commands.command(description="Repeats a message", brief="Repeating the message")
     async def echo(self, ctx, *, arg):
         await ctx.send(arg)
